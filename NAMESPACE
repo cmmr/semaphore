@@ -1,0 +1,7 @@
+useDynLib(semaphore, .registration = TRUE)
+import(Rcpp)
+
+export(`create_semaphore`)
+export(`increment_semaphore`)
+export(`decrement_semaphore`)
+export(`remove_semaphore`)
