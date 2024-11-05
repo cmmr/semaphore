@@ -1,8 +1,8 @@
 Package: semaphore
 Type: Package
-Title: Semaphores for Parallel Process Communication
+Title: Interprocess Communication via Shared Memory Atomic Operations
 Version: 0.1.0.9000
-Date: 2024-11-04
+Date: 2024-11-05
 Authors@R: c(
     person(
       "Daniel P.", "Smith",
@@ -14,12 +14,18 @@ Authors@R: c(
       role = c("cph", "fnd") ))
 Description: Implements named semaphores from the Boost C++ library. 
     A semaphore object is shared amongst several processes.
-    The integer value can be increment or decremented by any process in
-    a thread-safe manner. Processes can also wait (blocking) for the 
+    This integer value can be safely incremented or decremented by
+    multiple processes. Processes can also wait (blocking) for the 
     value to become non-zero.
-License: MIT
+URL: https://cmmr.github.io/semaphore/
+BugReports: https://github.com/cmmr/semaphore/issues
+License: MIT + file LICENSE
 Encoding: UTF-8
+RoxygenNote: 7.3.2
+Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.2.0)
 LinkingTo: 
     Rcpp,
     BH
+Imports: 
+    Rcpp

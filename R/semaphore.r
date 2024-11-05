@@ -15,11 +15,10 @@
 #' @param wait        If `TRUE`, blocks until semaphore is greater than zero.
 #' 
 #' @return
-#' \describe{
-#'   \item{`create_semaphore()` - }{ A semaphore identifier (string). }
-#'   \item{`increment_semaphore()` - }{ `NULL`, invisibly. }
-#'   \item{`decrement_semaphore()` - }{ `TRUE` on success; `FALSE` otherwise. }
-#'   \item{`remove_semaphore()` - }{ `TRUE` on succes; `FALSE` on error. }
+#' * `create_semaphore()` - A semaphore identifier (string).
+#' * `increment_semaphore()` - `NULL`, invisibly.
+#' * `decrement_semaphore()` - `TRUE` on success; `FALSE` otherwise.
+#' * `remove_semaphore()` - `TRUE` on success; `FALSE` on error.
 #' 
 #' @export
 #' @examples
