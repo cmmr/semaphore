@@ -1,6 +1,6 @@
 Package: semaphore
 Type: Package
-Title: Interprocess Communication via Shared Memory Atomic Operations
+Title: Shared Memory Atomic Operations
 Version: 0.1.0.9000
 Date: 2024-11-06
 Authors@R: c(
@@ -17,7 +17,7 @@ Description: Implements named semaphores from the Boost C++ library.
     This integer value can be safely incremented or decremented by
     multiple processes. Processes can also wait (blocking) for the 
     value to become non-zero.
-URL: https://cmmr.github.io/semaphore/
+URL: https://cmmr.github.io/semaphore/, https://github.com/cmmr/semaphore
 BugReports: https://github.com/cmmr/semaphore/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
