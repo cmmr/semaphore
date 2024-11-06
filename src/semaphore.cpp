@@ -1,42 +1,28 @@
+// [[Rcpp::depends(BH)]]
+
 #include <Rcpp.h>
-#include <random>
 #include <boost/interprocess/sync/named_semaphore.hpp>
 
 using namespace boost::interprocess;
 
 
 // [[Rcpp::export]]
-Rcpp::String rcpp_create_semaphore(unsigned int value = 0) {
-  
-  using namespace std;
-  
-  static random_device dev;
-  static mt19937 rng(dev());
-  
-  const char *v = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  uniform_int_distribution<int> dist(0, 61);
-  
-  string semaphore = "u";
-  for (int i = 0; i < 19; i++) {
-    semaphore += v[dist(rng)];
-  }
-  
-  named_semaphore sem(create_only_t(), semaphore.c_str(), value);
-  return semaphore;
+void rcpp_create_semaphore(const char* id, unsigned int value = 0) {
+  named_semaphore sem(create_only_t(), id, value);
 }
 
 
 // [[Rcpp::export]]
-void rcpp_increment_semaphore(const char* semaphore) {
-  named_semaphore sem(open_only_t(), semaphore);
+void rcpp_increment_semaphore(const char* id) {
+  named_semaphore sem(open_only_t(), id);
   sem.post();
 }
 
 
 // [[Rcpp::export]]
-bool rcpp_decrement_semaphore(const char* semaphore, bool wait = true) {
+bool rcpp_decrement_semaphore(const char* id, bool wait = true) {
   
-  named_semaphore sem(open_only_t(), semaphore);
+  named_semaphore sem(open_only_t(), id);
   
   if (wait) {
     sem.wait();
@@ -50,6 +36,6 @@ bool rcpp_decrement_semaphore(const char* semaphore, bool wait = true) {
 
 
 // [[Rcpp::export]]
-bool rcpp_remove_semaphore(const char* semaphore) {
-  return named_semaphore::remove(semaphore);
+bool rcpp_remove_semaphore(const char* id) {
+  return named_semaphore::remove(id);
 }

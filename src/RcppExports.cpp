@@ -11,52 +11,52 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 // rcpp_create_semaphore
-Rcpp::String rcpp_create_semaphore(unsigned int value);
-RcppExport SEXP _semaphore_rcpp_create_semaphore(SEXP valueSEXP) {
+void rcpp_create_semaphore(const char* id, unsigned int value);
+RcppExport SEXP _semaphore_rcpp_create_semaphore(SEXP idSEXP, SEXP valueSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type value(valueSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_create_semaphore(value));
-    return rcpp_result_gen;
+    rcpp_create_semaphore(id, value);
+    return R_NilValue;
 END_RCPP
 }
 // rcpp_increment_semaphore
-void rcpp_increment_semaphore(const char* semaphore);
-RcppExport SEXP _semaphore_rcpp_increment_semaphore(SEXP semaphoreSEXP) {
+void rcpp_increment_semaphore(const char* id);
+RcppExport SEXP _semaphore_rcpp_increment_semaphore(SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const char* >::type semaphore(semaphoreSEXP);
-    rcpp_increment_semaphore(semaphore);
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
+    rcpp_increment_semaphore(id);
     return R_NilValue;
 END_RCPP
 }
 // rcpp_decrement_semaphore
-bool rcpp_decrement_semaphore(const char* semaphore, bool wait);
-RcppExport SEXP _semaphore_rcpp_decrement_semaphore(SEXP semaphoreSEXP, SEXP waitSEXP) {
+bool rcpp_decrement_semaphore(const char* id, bool wait);
+RcppExport SEXP _semaphore_rcpp_decrement_semaphore(SEXP idSEXP, SEXP waitSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const char* >::type semaphore(semaphoreSEXP);
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
     Rcpp::traits::input_parameter< bool >::type wait(waitSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_decrement_semaphore(semaphore, wait));
+    rcpp_result_gen = Rcpp::wrap(rcpp_decrement_semaphore(id, wait));
     return rcpp_result_gen;
 END_RCPP
 }
 // rcpp_remove_semaphore
-bool rcpp_remove_semaphore(const char* semaphore);
-RcppExport SEXP _semaphore_rcpp_remove_semaphore(SEXP semaphoreSEXP) {
+bool rcpp_remove_semaphore(const char* id);
+RcppExport SEXP _semaphore_rcpp_remove_semaphore(SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const char* >::type semaphore(semaphoreSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_remove_semaphore(semaphore));
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_remove_semaphore(id));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_semaphore_rcpp_create_semaphore", (DL_FUNC) &_semaphore_rcpp_create_semaphore, 1},
+    {"_semaphore_rcpp_create_semaphore", (DL_FUNC) &_semaphore_rcpp_create_semaphore, 2},
     {"_semaphore_rcpp_increment_semaphore", (DL_FUNC) &_semaphore_rcpp_increment_semaphore, 1},
     {"_semaphore_rcpp_decrement_semaphore", (DL_FUNC) &_semaphore_rcpp_decrement_semaphore, 2},
     {"_semaphore_rcpp_remove_semaphore", (DL_FUNC) &_semaphore_rcpp_remove_semaphore, 1},

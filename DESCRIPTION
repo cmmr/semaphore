@@ -2,7 +2,7 @@ Package: semaphore
 Type: Package
 Title: Interprocess Communication via Shared Memory Atomic Operations
 Version: 0.1.0.9000
-Date: 2024-11-05
+Date: 2024-11-06
 Authors@R: c(
     person(
       "Daniel P.", "Smith",
@@ -29,3 +29,6 @@ LinkingTo:
     BH
 Imports: 
     Rcpp
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
