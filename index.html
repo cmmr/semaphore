@@ -53,7 +53,8 @@
 <!-- badges: start -->
 
 <p>The goal of semaphore is to enable synchronization of concurrent R processes.</p>
-<p>Implements named semaphores from the Boost C++ library. A semaphore object is shared amongst several processes. This integer value can be safely incremented or decremented by multiple processes. Processes can also wait (blocking) for the value to become non-zero.</p>
+<p>Implements <a href="https://www.boost.org/doc/libs/1_86_0/doc/html/doxygen/boost_interprocess_header_reference/classboost_1_1interprocess_1_1named__semaphore.html" class="external-link">named semaphores</a> from the <a href="https://www.boost.org/" class="external-link">Boost C++</a> library. Semaphores are managed by the operating system, which ensures this integer value can be safely incremented or decremented by multiple processes. Processes can also wait (blocking) for the value to become non-zero.</p>
+<p>Works cross-platform, including Windows, MacOS, and Linux.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -71,19 +72,52 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cmmr.github.io/semaphore/">semaphore</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_semaphore.html">create_semaphore</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/semaphores.html">create_semaphore</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "uUkKpNMbTVgaborHG4rH"</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/create_semaphore.html">increment_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">increment_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/create_semaphore.html">decrement_semaphore</a></span><span class="op">(</span><span class="va">s</span>, wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">decrement_semaphore</a></span><span class="op">(</span><span class="va">s</span>, wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="reference/create_semaphore.html">decrement_semaphore</a></span><span class="op">(</span><span class="va">s</span>, wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">decrement_semaphore</a></span><span class="op">(</span><span class="va">s</span>, wait <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] FALSE</span></span>
 <span></span>
-<span><span class="fu"><a href="reference/create_semaphore.html">remove_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">remove_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="producerconsumer">Producer/Consumer<a class="anchor" aria-label="anchor" href="#producerconsumer"></a>
+</h2>
+<p>Open two separate R sessions on the same machine.</p>
+<p><strong>Session 1 - Producer</strong></p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cmmr.github.io/semaphore/">semaphore</a></span><span class="op">)</span></span>
+<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="st">'mySemaphore'</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/semaphores.html">create_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># enable session 2 to output 'unblocked!' three times</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">increment_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">increment_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/semaphores.html">increment_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/semaphores.html">remove_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Session 2 - Consumer</strong></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cmmr.github.io/semaphore/">semaphore</a></span><span class="op">)</span></span>
+<span><span class="va">s</span> <span class="op">&lt;-</span> <span class="st">'mySemaphore'</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># Block until session 1 increments the semaphore</span></span>
+<span>  <span class="fu"><a href="reference/semaphores.html">decrement_semaphore</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Do some work</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">'unblocked!'</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">'finished'</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -124,6 +158,7 @@
 <li><a href="https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml/badge.svg" alt="dev"></a></li>
 <li><a href="https://CRAN.R-project.org/package=semaphore" class="external-link"><img src="https://www.r-pkg.org/badges/version/semaphore" alt="cran"></a></li>
 <li><a href="https://anaconda.org/conda-forge/r-semaphore" class="external-link"><img src="https://anaconda.org/conda-forge/r-semaphore/badges/version.svg" alt="conda"></a></li>
+<li><a href="https://app.codecov.io/gh/cmmr/semaphore" class="external-link"><img src="https://codecov.io/gh/cmmr/semaphore/graph/badge.svg" alt="covr"></a></li>
 </ul>
 </div>
 
