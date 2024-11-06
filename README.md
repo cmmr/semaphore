@@ -33,7 +33,7 @@ pak::pak("cmmr/semaphore")
 
 
 
-## Example
+## Usage
 
 ``` r
 library(semaphore)
@@ -55,7 +55,7 @@ remove_semaphore(s)
 
 
 
-## Producer/Consumer
+## Example: Producer/Consumer
 
 Open two separate R sessions on the same machine.
 
