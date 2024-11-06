@@ -1,0 +1,2 @@
+ignore:
+  - "R/zzz.r"  # Unable to observe .onLoad()
