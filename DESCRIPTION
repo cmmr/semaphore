@@ -2,7 +2,7 @@ Package: semaphore
 Type: Package
 Title: Shared Memory Atomic Operations
 Version: 1.0.0
-Date: 2024-11-06
+Date: 2024-11-08
 Authors@R: c(
     person(
       "Daniel P.", "Smith",
@@ -12,17 +12,18 @@ Authors@R: c(
     person(
       "Alkek Center for Metagenomics and Microbiome Research", 
       role = c("cph", "fnd") ))
-Description: Implements named semaphores from the Boost C++ library. 
-    A semaphore object is shared amongst several processes.
-    This integer value can be safely incremented or decremented by
-    multiple processes. Processes can also wait (blocking) for the 
-    value to become non-zero.
+Description: Implements named semaphores from the 'boost' 'C++' library 
+    <https://www.boost.org/>. A semaphore object is shared amongst several 
+    processes. This integer value can be safely incremented or decremented by
+    each processes. Processes can also wait (blocking) for the value to become 
+    non-zero.
 URL: https://cmmr.github.io/semaphore/, https://github.com/cmmr/semaphore
 BugReports: https://github.com/cmmr/semaphore/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3
 Depends: R (>= 4.2.0)
 LinkingTo: 
     Rcpp,
@@ -31,4 +32,3 @@ Imports:
     Rcpp
 Suggests: 
     testthat (>= 3.0.0)
-Config/testthat/edition: 3
