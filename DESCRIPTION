@@ -2,7 +2,7 @@ Package: semaphore
 Type: Package
 Title: Shared Memory Atomic Operations
 Version: 1.0.1.9000
-Date: 2024-11-08
+Date: 2024-11-12
 Authors@R: c(
     person(
       "Daniel P.", "Smith",
@@ -24,7 +24,6 @@ Encoding: UTF-8
 RoxygenNote: 7.3.2
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
-Depends: R (>= 4.2.0)
 LinkingTo: 
     Rcpp,
     BH
