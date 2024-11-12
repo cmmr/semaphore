@@ -1,6 +1,8 @@
-ENV <- list2env(list(semaphores = c()), parent = emptyenv())
+ENV <- new.env(parent = emptyenv())
 
-.onLoad <- function(libname, pkgname) {
+.onLoad <- function (libname, pkgname) {
+  
+  ENV$semaphores = c()
   
   # Remove semaphores created with cleanup=TRUE
   finalizer <- function (e) {

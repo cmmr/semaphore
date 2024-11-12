@@ -1,7 +1,7 @@
 Package: semaphore
 Type: Package
 Title: Shared Memory Atomic Operations
-Version: 1.0.1.9000
+Version: 1.0.1.9001
 Date: 2024-11-12
 Authors@R: c(
     person(
@@ -30,4 +30,4 @@ LinkingTo:
 Imports: 
     Rcpp
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat

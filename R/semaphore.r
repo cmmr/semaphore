@@ -43,7 +43,7 @@ create_semaphore <- function (id = NULL, value = 0, cleanup = TRUE) {
   
   invis <- !is.null(id)
   if (is.null(id))
-    id <- paste0(collapse = '', c(
+    id <- paste(collapse = '', c(
       sample(c(letters, LETTERS), 1),
       sample(c(letters, LETTERS, 0:9), 19, TRUE) ))
   
@@ -76,7 +76,7 @@ increment_semaphore <- function (id) {
 decrement_semaphore <- function (id, wait = TRUE) {
   
   stopifnot(isTRUE(nchar(id) > 0))
-  stopifnot(isTRUE(wait) || isFALSE(wait))
+  stopifnot(isTRUE(wait) || isTRUE(identical(wait, FALSE)))
   
   res <- rcpp_decrement_semaphore(id, wait)
   
