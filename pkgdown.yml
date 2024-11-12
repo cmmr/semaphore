@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-11-12T20:34Z
+last_built: 2024-11-12T20:56Z
 urls:
   reference: https://cmmr.github.io/semaphore/reference
   article: https://cmmr.github.io/semaphore/articles
