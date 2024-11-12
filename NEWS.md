@@ -1,3 +1,5 @@
+# semaphore (development version)
+
 # semaphore 1.0.1
 
 * Updated DESCRIPTION according to CRAN comments.
