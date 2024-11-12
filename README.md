@@ -1,8 +1,8 @@
 # semaphore
 
 <!-- badges: start -->
-[![dev](https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml)
 [![cran](https://www.r-pkg.org/badges/version/semaphore)](https://CRAN.R-project.org/package=semaphore)
+[![dev](https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/cmmr/semaphore/actions/workflows/R-CMD-check.yaml)
 [![conda](https://anaconda.org/conda-forge/r-semaphore/badges/version.svg)](https://anaconda.org/conda-forge/r-semaphore)
 [![covr](https://codecov.io/gh/cmmr/semaphore/graph/badge.svg)](https://app.codecov.io/gh/cmmr/semaphore)
 <!-- badges: end -->
