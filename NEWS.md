@@ -1,3 +1,6 @@
+# semaphore (development version)
+
+
 # semaphore 1.0.2
 
 * Support for R 2.0.0 or greater.
