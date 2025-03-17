@@ -26,9 +26,11 @@ slashes (\code{/}).}
 \item{cleanup}{Remove the semaphore when R session exits.}
 
 \item{wait}{Whether/how long to wait for the semaphore:
-\code{FALSE}: return immediately;
-\code{TRUE}: block until semaphore available;
-\emph{\if{html}{\out{<int>}}}: this many seconds at most.}
+\itemize{
+\item \code{FALSE}: return immediately.
+\item \code{TRUE}: block until semaphore available.
+\item \strong{integer}: this many seconds at most.
+}}
 }
 \value{
 \itemize{
@@ -46,7 +48,11 @@ When the semaphore is zero, calling \code{decrement_semaphore(wait = FALSE)}
 will return \code{FALSE} whereas \code{decrement_semaphore(wait = TRUE)} will
 block until the semaphore is incremented by another process.
 If multiple processes are blocked, a single call to \code{increment_semaphore()}
-will only unblock one of the blocked processes.
+will only unblock one of the blocked processes.\cr\cr
+It is possible to wait for a specific amount of time, for example,
+\code{decrement_semaphore(wait = 10)} will wait for 10 seconds. If the semaphore
+is incremented within those 10 seconds, the function will immediately return
+\code{TRUE}. Otherwise it will return \code{FALSE} at the 10 second mark.
 }
 \examples{
 

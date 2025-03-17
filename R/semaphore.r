@@ -8,7 +8,11 @@
 #' will return `FALSE` whereas `decrement_semaphore(wait = TRUE)` will 
 #' block until the semaphore is incremented by another process. 
 #' If multiple processes are blocked, a single call to `increment_semaphore()` 
-#' will only unblock one of the blocked processes.
+#' will only unblock one of the blocked processes.\cr\cr
+#' It is possible to wait for a specific amount of time, for example, 
+#' `decrement_semaphore(wait = 10)` will wait for 10 seconds. If the semaphore 
+#' is incremented within those 10 seconds, the function will immediately return 
+#' `TRUE`. Otherwise it will return `FALSE` at the 10 second mark.
 #' 
 #' @rdname semaphores
 #' 
@@ -19,9 +23,9 @@
 #' @param value     The initial value of the semaphore.
 #' @param cleanup   Remove the semaphore when R session exits.
 #' @param wait      Whether/how long to wait for the semaphore: 
-#'                  `FALSE`: return immediately; 
-#'                  `TRUE`: block until semaphore available;
-#'                  *<int>*: this many seconds at most.
+#' * `FALSE`: return immediately.
+#' * `TRUE`: block until semaphore available.
+#' * **integer**: this many seconds at most.
 #' 
 #' @return
 #' * `create_semaphore()` - The created semaphore's identifier (string), invisibly when `semaphore` is non-`NULL`.

@@ -15,7 +15,7 @@ from the [Boost C++ library](https://www.boost.org/).
 Semaphores are managed by the operating system, which is responsible for 
 ensuring that this integer value can be safely incremented or decremented by 
 multiple processes. 
-Processes can also wait (blocking) for the value to become non-zero.
+Processes can also wait (blocking) for the value to become positive.
 
 Works cross-platform, including Windows, MacOS, and Linux.
 
@@ -44,9 +44,9 @@ print(s)
 
 increment_semaphore(s)
 
-decrement_semaphore(s, wait = FALSE)
+decrement_semaphore(s, wait = 10)      # wait up to ten seconds
 #> [1] TRUE
-decrement_semaphore(s, wait = FALSE)
+decrement_semaphore(s, wait = FALSE)   # return immediately
 #> [1] FALSE
 
 remove_semaphore(s)
@@ -82,7 +82,7 @@ s <- 'mySemaphore'
 for (i in 1:3) {
 
   # Block until session 1 increments the semaphore
-  decrement_semaphore(s)
+  decrement_semaphore(s, wait = TRUE)
   
   # Do some work
   message('unblocked!')
