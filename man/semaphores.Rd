@@ -17,20 +17,24 @@ remove_semaphore(id)
 }
 \arguments{
 \item{id}{A semaphore identifier (string). \code{create_semaphore()}
-defaults to generating a random identifier.}
+defaults to generating a random identifier. A custom
+id should be at most 251 characters and must not contain
+slashes (\code{/}).}
 
 \item{value}{The initial value of the semaphore.}
 
 \item{cleanup}{Remove the semaphore when R session exits.}
 
-\item{wait}{If \code{TRUE}, blocks until semaphore is greater than zero.}
+\item{wait}{Whether/how long to wait for the semaphore:
+\code{FALSE}: return immediately;
+\code{TRUE}: block until semaphore available;
+\emph{\if{html}{\out{<int>}}}: this many seconds at most.}
 }
 \value{
 \itemize{
 \item \code{create_semaphore()} - The created semaphore's identifier (string), invisibly when \code{semaphore} is non-\code{NULL}.
 \item \code{increment_semaphore()} - \code{TRUE}, invisibly.
-\item \code{decrement_semaphore(wait = TRUE)} - \code{TRUE}, invisibly.
-\item \code{decrement_semaphore(wait = FALSE)} - \code{TRUE} if the decrement was successful; \code{FALSE} otherwise.
+\item \code{decrement_semaphore()} - \code{TRUE} if the decrement was successful; \code{FALSE} otherwise, invisibly when \code{wait=TRUE}.
 \item \code{remove_semaphore()} - \code{TRUE} on success; \code{FALSE} on error.
 }
 }

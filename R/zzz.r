@@ -1,3 +1,4 @@
+# nocov start
 ENV <- new.env(parent = emptyenv())
 
 .onLoad <- function (libname, pkgname) {
@@ -12,3 +13,4 @@ ENV <- new.env(parent = emptyenv())
   reg.finalizer(ENV, finalizer, onexit = TRUE)
   
 }
+# nocov end

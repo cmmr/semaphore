@@ -2,6 +2,7 @@
 
 #include <Rcpp.h>
 #include <boost/interprocess/sync/named_semaphore.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace boost::interprocess;
 
@@ -20,13 +21,21 @@ void rcpp_increment_semaphore(const char* id) {
 
 
 // [[Rcpp::export]]
-bool rcpp_decrement_semaphore(const char* id, bool wait = true) {
+bool rcpp_decrement_semaphore(const char* id, bool wait = true, long seconds = 0) {
   
   named_semaphore sem(open_only_t(), id);
   
   if (wait) {
-    sem.wait();
-    return true;
+    
+    if (seconds == 0) {
+      
+      sem.wait();
+      return true;
+      
+    } else {
+      boost::posix_time::ptime timeout = boost::posix_time::second_clock::universal_time() + boost::posix_time::seconds(seconds);
+      return sem.timed_wait(timeout);
+    }
     
   } else {
     return sem.try_wait();

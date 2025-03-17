@@ -22,16 +22,17 @@ test_that("create/remove", {
   expect_error(create_semaphore(cleanup = "yes"))
   s2 <- expect_silent(create_semaphore(cleanup = FALSE))
   
-  res <- expect_silent(remove_semaphore(c(s1, s2)))
+  res <- expect_silent(as.vector(remove_semaphore(c(s1, s2))))
   expect_identical(res, c(TRUE, TRUE))
 })
 
 
 test_that("inc/decrement", {
   
-  s <- expect_silent(create_semaphore(value = 1))
+  s <- expect_silent(create_semaphore(value = 2))
   
-  expect_true(decrement_semaphore(s))
+  expect_true(decrement_semaphore(s, wait = TRUE))
+  expect_true(decrement_semaphore(s, wait = 5))
   expect_true(increment_semaphore(s))
   expect_true(decrement_semaphore(s, wait = FALSE))
   expect_false(decrement_semaphore(s, wait = FALSE))

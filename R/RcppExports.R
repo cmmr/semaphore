@@ -9,8 +9,8 @@ rcpp_increment_semaphore <- function(id) {
     invisible(.Call(`_semaphore_rcpp_increment_semaphore`, id))
 }
 
-rcpp_decrement_semaphore <- function(id, wait = TRUE) {
-    .Call(`_semaphore_rcpp_decrement_semaphore`, id, wait)
+rcpp_decrement_semaphore <- function(id, wait = TRUE, seconds = 0L) {
+    .Call(`_semaphore_rcpp_decrement_semaphore`, id, wait, seconds)
 }
 
 rcpp_remove_semaphore <- function(id) {

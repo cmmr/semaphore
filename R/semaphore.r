@@ -13,16 +13,20 @@
 #' @rdname semaphores
 #' 
 #' @param id        A semaphore identifier (string). `create_semaphore()` 
-#'                  defaults to generating a random identifier.
+#'                  defaults to generating a random identifier. A custom
+#'                  id should be at most 251 characters and must not contain 
+#'                  slashes (`/`).
 #' @param value     The initial value of the semaphore.
 #' @param cleanup   Remove the semaphore when R session exits.
-#' @param wait      If `TRUE`, blocks until semaphore is greater than zero.
+#' @param wait      Whether/how long to wait for the semaphore: 
+#'                  `FALSE`: return immediately; 
+#'                  `TRUE`: block until semaphore available;
+#'                  *<int>*: this many seconds at most.
 #' 
 #' @return
 #' * `create_semaphore()` - The created semaphore's identifier (string), invisibly when `semaphore` is non-`NULL`.
 #' * `increment_semaphore()` - `TRUE`, invisibly.
-#' * `decrement_semaphore(wait = TRUE)` - `TRUE`, invisibly.
-#' * `decrement_semaphore(wait = FALSE)` - `TRUE` if the decrement was successful; `FALSE` otherwise.
+#' * `decrement_semaphore()` - `TRUE` if the decrement was successful; `FALSE` otherwise, invisibly when `wait=TRUE`.
 #' * `remove_semaphore()` - `TRUE` on success; `FALSE` on error.
 #' 
 #' @export
@@ -42,15 +46,15 @@
 create_semaphore <- function (id = NULL, value = 0, cleanup = TRUE) {
   
   invis <- !is.null(id)
-  if (is.null(id))
+  if (is.null(id)) {
     id <- paste(collapse = '', c(
       sample(c(letters, LETTERS), 1),
       sample(c(letters, LETTERS, 0:9), 19, TRUE) ))
+  }
   
-  stopifnot(isTRUE(value >= 0 && value < Inf))
-  stopifnot(isTRUE(value %% 1 == 0))
-  stopifnot(isTRUE(nchar(id) > 0))
-  stopifnot(isTRUE(cleanup) || isFALSE(cleanup))
+  validate_id(id)
+  stopifnot(is_unsigned_int(value))
+  stopifnot(is_logical(cleanup))
   
   rcpp_create_semaphore(id, value)
   
@@ -65,8 +69,7 @@ create_semaphore <- function (id = NULL, value = 0, cleanup = TRUE) {
 #' @rdname semaphores
 #' @export
 increment_semaphore <- function (id) {
-  stopifnot(isTRUE(nchar(id) > 0))
-  rcpp_increment_semaphore(id)
+  rcpp_increment_semaphore(validate_id(id))
   return (invisible(TRUE))
 }
 
@@ -75,26 +78,47 @@ increment_semaphore <- function (id) {
 #' @export
 decrement_semaphore <- function (id, wait = TRUE) {
   
-  stopifnot(isTRUE(nchar(id) > 0))
-  stopifnot(isTRUE(wait) || isTRUE(identical(wait, FALSE)))
+  validate_id(id)
+  stopifnot(is_logical(wait) || is_unsigned_int(wait))
   
-  res <- rcpp_decrement_semaphore(id, wait)
-  
-  if (wait) { return (invisible(res)) }
-  else      { return (res)            }
+  if (is.numeric(wait)) {
+    return (rcpp_decrement_semaphore(id, TRUE, as.integer(wait)))
+    
+  } else if (isTRUE(wait)) {
+    return (invisible(rcpp_decrement_semaphore(id, TRUE, 0L)))
+    
+  } else {
+    return (rcpp_decrement_semaphore(id, FALSE, 0L))
+  }
 }
 
 
 #' @rdname semaphores
 #' @export
 remove_semaphore <- function (id) {
-  
-  res <- logical(0)
-  for (i in seq_along(id)) {
-    stopifnot(isTRUE(nchar(id[[i]]) > 0))
-    ENV$semaphores <- setdiff(ENV$semaphores, id[[i]])
-    res <- c(res, rcpp_remove_semaphore(id[[i]]))
-  }
-  
-  return (res)
+  sapply(id, validate_id)
+  ENV$semaphores <- setdiff(ENV$semaphores, id)
+  invisible(sapply(id, rcpp_remove_semaphore))
+}
+
+
+
+validate_id <- function (id) {
+  stopifnot(is.character(id))
+  stopifnot(length(id) == 1)
+  stopifnot(!is.na(id))
+  stopifnot(nchar(id) > 0)
+  stopifnot(nchar(id) <= 251)
+  stopifnot(!any(strsplit(id, '')[[1]] == '/'))
+  return (invisible(id))
+}
+
+is_unsigned_int <- function (value) {
+  all(
+    isTRUE(value >= 0 && value < Inf),
+    isTRUE(value %% 1 == 0) )
+}
+
+is_logical <- function (x) {
+  identical(x, TRUE) || identical(x, FALSE)
 }

@@ -1,8 +1,8 @@
 Package: semaphore
 Type: Package
 Title: Shared Memory Atomic Operations
-Version: 1.0.2.9000
-Date: 2024-11-12
+Version: 1.1.0
+Date: 2025-03-17
 Authors@R: c(
     person(
       "Daniel P.", "Smith",
@@ -15,8 +15,8 @@ Authors@R: c(
 Description: Implements named semaphores from the 'boost' 'C++' library 
     <https://www.boost.org/>. A semaphore object is shared amongst several 
     processes. This integer value can be safely incremented or decremented by
-    each processes. Processes can also wait (blocking) for the value to become 
-    non-zero.
+    each process. Processes can also wait (blocking) for the value to become 
+    non-negative.
 URL: https://cmmr.github.io/semaphore/, https://github.com/cmmr/semaphore
 BugReports: https://github.com/cmmr/semaphore/issues
 License: MIT + file LICENSE
