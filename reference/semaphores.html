@@ -6,14 +6,22 @@ When the semaphore is zero, calling decrement_semaphore(wait = FALSE)
 will return FALSE whereas decrement_semaphore(wait = TRUE) will
 block until the semaphore is incremented by another process.
 If multiple processes are blocked, a single call to increment_semaphore()
-will only unblock one of the blocked processes."><meta property="og:description" content="A semaphore is an integer that the operating system keeps track of.
+will only unblock one of the blocked processes.
+It is possible to wait for a specific amount of time, for example,
+decrement_semaphore(wait = 10) will wait for 10 seconds. If the semaphore
+is incremented within those 10 seconds, the function will immediately return
+TRUE. Otherwise it will return FALSE at the 10 second mark."><meta property="og:description" content="A semaphore is an integer that the operating system keeps track of.
 Any process that knows the semaphore's identifier can increment or
 decrement its value, though it cannot be decremented below zero.
 When the semaphore is zero, calling decrement_semaphore(wait = FALSE)
 will return FALSE whereas decrement_semaphore(wait = TRUE) will
 block until the semaphore is incremented by another process.
 If multiple processes are blocked, a single call to increment_semaphore()
-will only unblock one of the blocked processes."></head><body>
+will only unblock one of the blocked processes.
+It is possible to wait for a specific amount of time, for example,
+decrement_semaphore(wait = 10) will wait for 10 seconds. If the semaphore
+is incremented within those 10 seconds, the function will immediately return
+TRUE. Otherwise it will return FALSE at the 10 second mark."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -55,7 +63,11 @@ When the semaphore is zero, calling <code>decrement_semaphore(wait = FALSE)</cod
 will return <code>FALSE</code> whereas <code>decrement_semaphore(wait = TRUE)</code> will
 block until the semaphore is incremented by another process.
 If multiple processes are blocked, a single call to <code>increment_semaphore()</code>
-will only unblock one of the blocked processes.</p>
+will only unblock one of the blocked processes.<br><br>
+It is possible to wait for a specific amount of time, for example,
+<code>decrement_semaphore(wait = 10)</code> will wait for 10 seconds. If the semaphore
+is incremented within those 10 seconds, the function will immediately return
+<code>TRUE</code>. Otherwise it will return <code>FALSE</code> at the 10 second mark.</p>
     </div>
 
     <div class="section level2">
@@ -89,10 +101,10 @@ slashes (<code>/</code>).</p></dd>
 
 
 <dt id="arg-wait">wait<a class="anchor" aria-label="anchor" href="#arg-wait"></a></dt>
-<dd><p>Whether/how long to wait for the semaphore:
-<code>FALSE</code>: return immediately;
-<code>TRUE</code>: block until semaphore available;
-<em><int></int></em>: this many seconds at most.</p></dd>
+<dd><p>Whether/how long to wait for the semaphore:</p><ul><li><p><code>FALSE</code>: return immediately.</p></li>
+<li><p><code>TRUE</code>: block until semaphore available.</p></li>
+<li><p><strong>integer</strong>: this many seconds at most.</p></li>
+</ul></dd>
 
 </dl></div>
     <div class="section level2">
