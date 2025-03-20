@@ -5,12 +5,24 @@ rcpp_create_semaphore <- function(id, value = 0L) {
     invisible(.Call(`_semaphore_rcpp_create_semaphore`, id, value))
 }
 
-rcpp_increment_semaphore <- function(id) {
-    invisible(.Call(`_semaphore_rcpp_increment_semaphore`, id))
+rcpp_sem_post <- function(id) {
+    invisible(.Call(`_semaphore_rcpp_sem_post`, id))
 }
 
-rcpp_decrement_semaphore <- function(id, wait = TRUE, seconds = 0L) {
-    .Call(`_semaphore_rcpp_decrement_semaphore`, id, wait, seconds)
+rcpp_wait <- function(id) {
+    .Call(`_semaphore_rcpp_wait`, id)
+}
+
+rcpp_try_wait <- function(id) {
+    .Call(`_semaphore_rcpp_try_wait`, id)
+}
+
+rcpp_wait_seconds <- function(id, seconds = 0L) {
+    .Call(`_semaphore_rcpp_wait_seconds`, id, seconds)
+}
+
+rcpp_wait_microseconds <- function(id, microseconds = 0L) {
+    .Call(`_semaphore_rcpp_wait_microseconds`, id, microseconds)
 }
 
 rcpp_remove_semaphore <- function(id) {

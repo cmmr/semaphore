@@ -21,26 +21,59 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// rcpp_increment_semaphore
-void rcpp_increment_semaphore(const char* id);
-RcppExport SEXP _semaphore_rcpp_increment_semaphore(SEXP idSEXP) {
+// rcpp_sem_post
+void rcpp_sem_post(const char* id);
+RcppExport SEXP _semaphore_rcpp_sem_post(SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
-    rcpp_increment_semaphore(id);
+    rcpp_sem_post(id);
     return R_NilValue;
 END_RCPP
 }
-// rcpp_decrement_semaphore
-bool rcpp_decrement_semaphore(const char* id, bool wait, long seconds);
-RcppExport SEXP _semaphore_rcpp_decrement_semaphore(SEXP idSEXP, SEXP waitSEXP, SEXP secondsSEXP) {
+// rcpp_wait
+bool rcpp_wait(const char* id);
+RcppExport SEXP _semaphore_rcpp_wait(SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
-    Rcpp::traits::input_parameter< bool >::type wait(waitSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_wait(id));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_try_wait
+bool rcpp_try_wait(const char* id);
+RcppExport SEXP _semaphore_rcpp_try_wait(SEXP idSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_try_wait(id));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_wait_seconds
+bool rcpp_wait_seconds(const char* id, long seconds);
+RcppExport SEXP _semaphore_rcpp_wait_seconds(SEXP idSEXP, SEXP secondsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
     Rcpp::traits::input_parameter< long >::type seconds(secondsSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_decrement_semaphore(id, wait, seconds));
+    rcpp_result_gen = Rcpp::wrap(rcpp_wait_seconds(id, seconds));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_wait_microseconds
+bool rcpp_wait_microseconds(const char* id, long microseconds);
+RcppExport SEXP _semaphore_rcpp_wait_microseconds(SEXP idSEXP, SEXP microsecondsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const char* >::type id(idSEXP);
+    Rcpp::traits::input_parameter< long >::type microseconds(microsecondsSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_wait_microseconds(id, microseconds));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -58,8 +91,11 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_semaphore_rcpp_create_semaphore", (DL_FUNC) &_semaphore_rcpp_create_semaphore, 2},
-    {"_semaphore_rcpp_increment_semaphore", (DL_FUNC) &_semaphore_rcpp_increment_semaphore, 1},
-    {"_semaphore_rcpp_decrement_semaphore", (DL_FUNC) &_semaphore_rcpp_decrement_semaphore, 3},
+    {"_semaphore_rcpp_sem_post", (DL_FUNC) &_semaphore_rcpp_sem_post, 1},
+    {"_semaphore_rcpp_wait", (DL_FUNC) &_semaphore_rcpp_wait, 1},
+    {"_semaphore_rcpp_try_wait", (DL_FUNC) &_semaphore_rcpp_try_wait, 1},
+    {"_semaphore_rcpp_wait_seconds", (DL_FUNC) &_semaphore_rcpp_wait_seconds, 2},
+    {"_semaphore_rcpp_wait_microseconds", (DL_FUNC) &_semaphore_rcpp_wait_microseconds, 2},
     {"_semaphore_rcpp_remove_semaphore", (DL_FUNC) &_semaphore_rcpp_remove_semaphore, 1},
     {NULL, NULL, 0}
 };

@@ -29,13 +29,16 @@ test_that("create/remove", {
 
 test_that("inc/decrement", {
   
-  s <- expect_silent(create_semaphore(value = 2))
+  s <- expect_silent(create_semaphore(value = 3))
   
-  expect_true(decrement_semaphore(s, wait = TRUE))
-  expect_true(decrement_semaphore(s, wait = 5))
   expect_true(increment_semaphore(s))
-  expect_true(decrement_semaphore(s, wait = FALSE))
-  expect_false(decrement_semaphore(s, wait = FALSE))
+  
+  expect_true(  decrement_semaphore(s, wait = Inf) )
+  expect_true(  decrement_semaphore(s, wait = 1)   )
+  expect_true(  decrement_semaphore(s, wait = 1.1) )
+  expect_true(  decrement_semaphore(s, wait = 0)   )
+  expect_false( decrement_semaphore(s, wait = 0)   )
+  expect_error( decrement_semaphore(s, wait = NA)  )
   
   expect_true(remove_semaphore(s))
 })

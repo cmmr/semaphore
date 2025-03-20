@@ -22,16 +22,15 @@
 #'                  slashes (`/`).
 #' @param value     The initial value of the semaphore.
 #' @param cleanup   Remove the semaphore when R session exits.
-#' @param wait      Whether/how long to wait for the semaphore: 
-#' * `FALSE`: return immediately.
-#' * `TRUE`: block until semaphore available.
-#' * **integer**: this many seconds at most.
+#' @param wait      Maximum time (in seconds) to block the process while 
+#'                  waiting for the semaphore. `TRUE` maps to `0`; `FALSE` maps 
+#'                  to `Inf`. Fractional seconds allowed (e.g. `wait=0.001`).
 #' 
 #' @return
-#' * `create_semaphore()` - The created semaphore's identifier (string), invisibly when `semaphore` is non-`NULL`.
-#' * `increment_semaphore()` - `TRUE`, invisibly.
-#' * `decrement_semaphore()` - `TRUE` if the decrement was successful; `FALSE` otherwise, invisibly when `wait=TRUE`.
-#' * `remove_semaphore()` - `TRUE` on success; `FALSE` on error.
+#' * `create_semaphore()` - The created semaphore's identifier (string), invisibly unless `id=NULL`.
+#' * `increment_semaphore()` - `TRUE` on success or `FALSE` on error, invisibly.
+#' * `decrement_semaphore()` - `TRUE` if the decrement was successful or `FALSE` otherwise, invisibly when `wait=Inf`.
+#' * `remove_semaphore()` - `TRUE` on success or `FALSE` on error.
 #' 
 #' @export
 #' @examples
@@ -73,7 +72,7 @@ create_semaphore <- function (id = NULL, value = 0, cleanup = TRUE) {
 #' @rdname semaphores
 #' @export
 increment_semaphore <- function (id) {
-  rcpp_increment_semaphore(validate_id(id))
+  rcpp_sem_post(validate_id(id))
   return (invisible(TRUE))
 }
 
@@ -83,17 +82,20 @@ increment_semaphore <- function (id) {
 decrement_semaphore <- function (id, wait = TRUE) {
   
   validate_id(id)
-  stopifnot(is_logical(wait) || is_unsigned_int(wait))
   
-  if (is.numeric(wait)) {
-    return (rcpp_decrement_semaphore(id, TRUE, as.integer(wait)))
-    
-  } else if (isTRUE(wait)) {
-    return (invisible(rcpp_decrement_semaphore(id, TRUE, 0L)))
-    
-  } else {
-    return (rcpp_decrement_semaphore(id, FALSE, 0L))
-  }
+  if (identical(wait, TRUE) || identical(wait, Inf))
+    return (invisible(rcpp_wait(id)))
+  
+  if (identical(wait, FALSE) || identical(wait, 0) || identical(wait, 0L))
+    return (rcpp_try_wait(id))
+  
+  if (is_unsigned_int(wait))
+    return (rcpp_wait_seconds(id, as.integer(wait)))
+  
+  if (is_unsigned_dbl(wait))
+    return (rcpp_wait_microseconds(id, as.integer(wait * 1000000)))
+  
+  stop('`wait` must be a TRUE, FALSE, or a non-negative number.')
 }
 
 
@@ -121,6 +123,10 @@ is_unsigned_int <- function (value) {
   all(
     isTRUE(value >= 0 && value < Inf),
     isTRUE(value %% 1 == 0) )
+}
+
+is_unsigned_dbl <- function (value) {
+  isTRUE(value >= 0 && value < Inf)
 }
 
 is_logical <- function (x) {

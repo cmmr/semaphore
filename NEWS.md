@@ -1,3 +1,8 @@
+# semaphore 1.2.0
+
+* Timed wait now has sub-second resolution.
+
+
 # semaphore 1.1.0
 
 * Timed wait now available with e.g. `decrement_semaphore(wait = 10)`.

@@ -25,19 +25,16 @@ slashes (\code{/}).}
 
 \item{cleanup}{Remove the semaphore when R session exits.}
 
-\item{wait}{Whether/how long to wait for the semaphore:
-\itemize{
-\item \code{FALSE}: return immediately.
-\item \code{TRUE}: block until semaphore available.
-\item \strong{integer}: this many seconds at most.
-}}
+\item{wait}{Maximum time (in seconds) to block the process while
+waiting for the semaphore. \code{TRUE} maps to \code{0}; \code{FALSE} maps
+to \code{Inf}. Fractional seconds allowed (e.g. \code{wait=0.001}).}
 }
 \value{
 \itemize{
-\item \code{create_semaphore()} - The created semaphore's identifier (string), invisibly when \code{semaphore} is non-\code{NULL}.
-\item \code{increment_semaphore()} - \code{TRUE}, invisibly.
-\item \code{decrement_semaphore()} - \code{TRUE} if the decrement was successful; \code{FALSE} otherwise, invisibly when \code{wait=TRUE}.
-\item \code{remove_semaphore()} - \code{TRUE} on success; \code{FALSE} on error.
+\item \code{create_semaphore()} - The created semaphore's identifier (string), invisibly unless \code{id=NULL}.
+\item \code{increment_semaphore()} - \code{TRUE} on success or \code{FALSE} on error, invisibly.
+\item \code{decrement_semaphore()} - \code{TRUE} if the decrement was successful or \code{FALSE} otherwise, invisibly when \code{wait=Inf}.
+\item \code{remove_semaphore()} - \code{TRUE} on success or \code{FALSE} on error.
 }
 }
 \description{
