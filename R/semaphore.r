@@ -95,7 +95,7 @@ decrement_semaphore <- function (id, wait = TRUE) {
   if (is_unsigned_dbl(wait))
     return (rcpp_wait_microseconds(id, as.integer(wait * 1000000)))
   
-  stop('`wait` must be a TRUE, FALSE, or a non-negative number.')
+  stop('`wait` must be TRUE, FALSE, or a non-negative number.')
 }
 
 
