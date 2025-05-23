@@ -1,3 +1,8 @@
+> [!WARNING]
+> This package is no longer maintained.
+> Please use the [interprocess](https://github.com/cmmr/interprocess) package instead.
+
+
 # semaphore
 
 <!-- badges: start -->
